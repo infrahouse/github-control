@@ -17,6 +17,8 @@ jobs:
     timeout-minutes: 60
     env:
       AWS_DEFAULT_REGION: "us-west-1"
+      ROLE_GITHUB: "arn:aws:iam::303467602807:role/ih-tf-github-control-github"
+      ROLE_STATE_MANAGER: "arn:aws:iam::289256138624:role/ih-tf-github-control-state-manager"
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -24,14 +26,6 @@ jobs:
         shell: bash
 
     steps:
-      - name: "Get token"
-        id: "app-token"
-        uses: "actions/create-github-app-token@v1"
-        with:
-          private-key: ${{ secrets.IH_GH_TF_APP_KEY }}
-          app-id: "1016363"
-          owner: "infrahouse8"
-
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,7 +33,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ vars.ROLE_GITHUB }}
+          role-to-assume: ${{ env.ROLE_GITHUB }}
           role-session-name: ih-tf-terraform-control-github-control
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
@@ -74,5 +68,5 @@ jobs:
       # Upload Terraform Plan
       - name: Upload Terraform Plan
         run: |
-          ih-plan --aws-assume-role-arn ${{ vars.ROLE_STATE_MANAGER }} \
+          ih-plan --aws-assume-role-arn ${{ env.ROLE_STATE_MANAGER }} \
             upload --key-name=plans/${{ github.event.pull_request.number }}.plan tf.plan
