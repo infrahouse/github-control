@@ -44,6 +44,12 @@ locals {
       }
       public_repo = false
     }
+    "infrahouse-app" = {
+      "description"   = "InfraHouse SaaS application - frontend, backend, and schema definitions."
+      "type"          = "python_app"
+      "template_repo" = null
+      public_repo     = false
+    }
     "infrahouse-core" = {
       "description"   = <<-EOF
         Python library for AWS infrastructure automation - EC2 instance management,

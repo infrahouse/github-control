@@ -5,7 +5,7 @@ resource "github_repository" "repo" {
   has_issues           = true
   has_projects         = false
   has_wiki             = false
-  vulnerability_alerts = true
+  vulnerability_alerts = !var.archived
   archived             = var.archived
   dynamic "template" {
     for_each = toset(
