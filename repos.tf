@@ -30,6 +30,11 @@ locals {
       "type"          = "other"
       "template_repo" = null
     }
+    "github-control" = {
+      "description"   = "InfraHouse GitHub configuration."
+      "type"          = "other"
+      "template_repo" = null
+    }
     "infrahouse-com" = {
       "description"   = "InfraHouse.com content."
       "type"          = "other"
@@ -576,6 +581,16 @@ locals {
       "type"          = "terraform_module"
       "template_repo" = null
       "topics"        = ["openclaw", "ai", "llm", "cognito", "bedrock"]
+    }
+    "terraform-aws-rds" = {
+      "description"   = <<-EOT
+        Terraform module for RDS database deployment with CloudWatch alarms,
+        security hardening, Vanta compliance tags, and severity-based
+        alert notifications for CPU, memory, storage, and IO monitoring.
+      EOT
+      "type"          = "terraform_module"
+      "template_repo" = null
+      "topics"        = ["rds", "database", "monitoring", "mysql"]
     }
     "terraform-aws-website-pod" = {
       "description"   = <<-EOT

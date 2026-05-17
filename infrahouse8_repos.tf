@@ -1,7 +1,8 @@
 locals {
   infrahouse_8_repos = {
     github-control = {
-      description       = "InfraHouse GitHub configuration"
+      archived          = true
+      description       = "InfraHouse GitHub configuration - Moved to https://github.com/infrahouse/github-control"
       tf_admin_username = "tf_github"
       secrets = {
       }
