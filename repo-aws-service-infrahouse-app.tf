@@ -27,6 +27,9 @@ module "aws_service_infrahouse_app_gha_sandbox" {
   repo_name                 = "aws-service-infrahouse-app"
   state_bucket              = module.aws_service_infrahouse_app_state.bucket_name
   terraform_locks_table_arn = module.aws_service_infrahouse_app_state.lock_table_arn
+  trusted_arns = [
+    local.root_sso_admin_arn
+  ]
 }
 
 # --- The service repo (pure GitHub, no AWS) ---
