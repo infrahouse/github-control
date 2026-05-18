@@ -6,6 +6,10 @@ on:  # yamllint disable-line rule:truthy
     types:
       - closed
 
+concurrency:
+  group: terraform
+  cancel-in-progress: false
+
 permissions:
   id-token: write  # This is required for requesting the JWT
   contents: read
