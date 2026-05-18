@@ -109,3 +109,10 @@ variable "is_template" {
   default     = false
   nullable    = false
 }
+
+variable "archived" {
+  description = "Whether the repository is archived"
+  type        = bool
+  default     = false
+  nullable    = false
+}

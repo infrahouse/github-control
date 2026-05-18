@@ -288,6 +288,7 @@ locals {
       "topics"        = ["github", "backup", "lambda"]
     }
     "terraform-aws-github-backup-configuration" = {
+      archived        = true
       "description"   = <<-EOT
         Terraform module for configuring infrahouse-github-backup GitHub App client
         with secrets, permissions, and backup target configuration.
@@ -628,6 +629,7 @@ module "repos" {
     keys(each.value), "template_repo"
   ) ? each.value["template_repo"] : local.type_template_map[each.value["type"]]
 
+  archived = try(each.value["archived"], false)
   enable_pages = try(
     each.value["enable_pages"],
     each.value["type"] == "terraform_module"
