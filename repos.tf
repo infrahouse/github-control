@@ -31,9 +31,11 @@ locals {
       "template_repo" = null
     }
     "github-control" = {
-      "description"   = "InfraHouse GitHub configuration."
-      "type"          = "other"
-      "template_repo" = null
+      "description"          = "InfraHouse GitHub configuration."
+      "type"                 = "other"
+      "template_repo"        = null
+      auto_merge             = true
+      required_status_checks = ["Terraform Plan"]
     }
     "infrahouse-com" = {
       "description"   = "InfraHouse.com content."
@@ -629,7 +631,8 @@ module "repos" {
     keys(each.value), "template_repo"
   ) ? each.value["template_repo"] : local.type_template_map[each.value["type"]]
 
-  archived = try(each.value["archived"], false)
+  archived               = try(each.value["archived"], false)
+  required_status_checks = try(each.value["required_status_checks"], [])
   enable_pages = try(
     each.value["enable_pages"],
     each.value["type"] == "terraform_module"

@@ -116,3 +116,9 @@ variable "archived" {
   default     = false
   nullable    = false
 }
+
+variable "required_status_checks" {
+  description = "Additional required status check contexts for the branch ruleset"
+  type        = list(string)
+  default     = []
+}
