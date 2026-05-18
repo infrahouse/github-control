@@ -48,7 +48,8 @@ resource "github_repository_ruleset" "main" {
             var.repo_type == "terraform_aws" ? ["Terraform Plan"] : [],
             [
               "vulnerability-check / osv-scan",
-            ]
+            ],
+            var.required_status_checks,
           )
         )
         content {
