@@ -1,6 +1,7 @@
 resource "github_repository" "repo" {
   name                   = var.repo_name
   description            = var.repo_description
+  archived               = var.archived
   has_issues             = true
   has_projects           = var.has_projects
   is_template            = var.is_template
