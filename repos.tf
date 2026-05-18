@@ -531,6 +531,7 @@ locals {
       "topics"        = ["nlb", "tcp", "autoscaling"]
     }
     "terraform-aws-teleport" = {
+      archived        = true
       "description"   = <<-EOT
         Terraform module for single-node Teleport cluster providing secure SSH,
         Kubernetes, database, and application access with audit logging.
