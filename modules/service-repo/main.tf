@@ -9,7 +9,6 @@ data "github_team" "release_managers" {
 resource "github_repository" "this" {
   name                        = var.repo_name
   description                 = var.repo_description
-  has_downloads               = true
   has_issues                  = true
   has_projects                = true
   has_wiki                    = true
