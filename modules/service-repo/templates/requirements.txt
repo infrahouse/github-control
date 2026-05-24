@@ -1,2 +1,3 @@
 infrahouse-toolkit ~= 2.59
+semgrep ~= 1.163
 yamllint ~= 1.29
