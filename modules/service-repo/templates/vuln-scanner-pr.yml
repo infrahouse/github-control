@@ -21,6 +21,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: Detect vulnerabilities
         run: |
           if [ -n "${{ github.event.pull_request.number }}" ]; then
@@ -40,9 +46,10 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: SAST
         run: |
-          pip install --upgrade semgrep
           if [ -n "${{ github.event.pull_request.number }}" ]; then
             ih-github run \
             ${{ github.repository }} \
