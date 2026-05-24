@@ -6,7 +6,7 @@ resource "github_repository" "repo" {
   has_projects           = var.has_projects
   is_template            = var.is_template
   visibility             = var.public_repo ? "public" : "private"
-  vulnerability_alerts   = var.public_repo
+  vulnerability_alerts   = var.public_repo && !var.archived
   delete_branch_on_merge = true
   allow_auto_merge       = var.allow_auto_merge
   homepage_url           = var.repo_type == "terraform_module" ? "https://infrahouse.github.io/${var.repo_name}" : ""
