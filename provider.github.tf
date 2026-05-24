@@ -3,7 +3,7 @@ provider "github" {
   app_auth {
     id              = "1016363"
     installation_id = "55607614"
-    pem_file        = module.infrahouse-github-terraform-pem.secret_value
+    pem_file        = data.aws_secretsmanager_secret_version.github_app_pem.secret_string
   }
 }
 
@@ -13,6 +13,6 @@ provider "github" {
   app_auth {
     id              = "1016363"
     installation_id = "55799033"
-    pem_file        = module.infrahouse-github-terraform-pem.secret_value
+    pem_file        = data.aws_secretsmanager_secret_version.github_app_pem.secret_string
   }
 }

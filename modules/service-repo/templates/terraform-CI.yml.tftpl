@@ -73,7 +73,7 @@ jobs:
       - name: "Setup Python Environment"
         working-directory: "environments/$${{ matrix.env }}"
         run: |
-          make bootstrap-ci
+          make bootstrap
 
       - name: "Code Style Check"
         working-directory: "environments/$${{ matrix.env }}"
