@@ -9,8 +9,8 @@ resource "github_team_members" "dev" {
   dynamic "members" {
     for_each = toset(
       [
-        for username, teams in local.team_members : username
-        if contains(teams, github_team.dev.name)
+        for username, member in local.team_members : username
+        if contains(member.teams, github_team.dev.name)
       ]
     )
     content {
@@ -30,8 +30,8 @@ resource "github_team_members" "admins" {
   dynamic "members" {
     for_each = toset(
       [
-        for username, teams in local.team_members : username
-        if contains(teams, github_team.admins.name)
+        for username, member in local.team_members : username
+        if contains(member.teams, github_team.admins.name)
       ]
     )
     content {
