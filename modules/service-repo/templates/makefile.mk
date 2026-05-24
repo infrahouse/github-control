@@ -15,7 +15,7 @@ endef
 export PRINT_HELP_PYSCRIPT
 
 help: ## Print this help
-	python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	cat $(MAKEFILE_LIST) | python -c "$$PRINT_HELP_PYSCRIPT"
 
 .PHONY: bootstrap
 bootstrap: ## Build development environment
