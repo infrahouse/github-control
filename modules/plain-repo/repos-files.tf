@@ -3,6 +3,7 @@ locals {
 }
 
 resource "github_repository_file" "renovate_json" {
+  count = var.archived ? 0 : 1
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -14,6 +15,7 @@ resource "github_repository_file" "renovate_json" {
 }
 
 resource "github_repository_file" "vuln_scanner_workflow" {
+  count = var.archived ? 0 : 1
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -25,7 +27,7 @@ resource "github_repository_file" "vuln_scanner_workflow" {
 }
 
 resource "github_repository_file" "terraform_module_reviewer" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -37,7 +39,7 @@ resource "github_repository_file" "terraform_module_reviewer" {
 }
 
 resource "github_repository_file" "review_local_command" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -49,6 +51,7 @@ resource "github_repository_file" "review_local_command" {
 }
 
 resource "github_repository_file" "coding_standard" {
+  count = var.archived ? 0 : 1
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -60,6 +63,7 @@ resource "github_repository_file" "coding_standard" {
 }
 
 resource "github_repository_file" "claude_instructions" {
+  count = var.archived ? 0 : 1
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -71,7 +75,7 @@ resource "github_repository_file" "claude_instructions" {
 }
 
 resource "github_repository_file" "makefile_example" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -83,7 +87,7 @@ resource "github_repository_file" "makefile_example" {
 }
 
 resource "github_repository_file" "terraform_review_workflow" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -95,7 +99,7 @@ resource "github_repository_file" "terraform_review_workflow" {
 }
 
 resource "github_repository_file" "terraform_docs_config" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -107,7 +111,7 @@ resource "github_repository_file" "terraform_docs_config" {
 }
 
 resource "github_repository_file" "cliff_config" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -121,7 +125,7 @@ resource "github_repository_file" "cliff_config" {
 }
 
 resource "github_repository_file" "pre_commit_hook" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -133,7 +137,7 @@ resource "github_repository_file" "pre_commit_hook" {
 }
 
 resource "github_repository_file" "commit_msg_hook" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -145,7 +149,7 @@ resource "github_repository_file" "commit_msg_hook" {
 }
 
 resource "github_repository_file" "docs_workflow" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -157,7 +161,7 @@ resource "github_repository_file" "docs_workflow" {
 }
 
 resource "github_repository_file" "release_workflow" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -169,7 +173,7 @@ resource "github_repository_file" "release_workflow" {
 }
 
 resource "github_repository_file" "security_md" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -181,7 +185,7 @@ resource "github_repository_file" "security_md" {
 }
 
 resource "github_repository_file" "contributing_md" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -193,7 +197,7 @@ resource "github_repository_file" "contributing_md" {
 }
 
 resource "github_repository_file" "license" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -205,7 +209,7 @@ resource "github_repository_file" "license" {
 }
 
 resource "github_repository_file" "docs_index" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -221,7 +225,7 @@ resource "github_repository_file" "docs_index" {
 }
 
 resource "github_repository_file" "mkdocs_config" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -239,7 +243,7 @@ resource "github_repository_file" "mkdocs_config" {
 }
 
 resource "github_repository_file" "checkov_workflow" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -251,7 +255,7 @@ resource "github_repository_file" "checkov_workflow" {
 }
 
 resource "github_repository_file" "notify_on_failure_workflow" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -263,7 +267,7 @@ resource "github_repository_file" "notify_on_failure_workflow" {
 }
 
 resource "github_repository_file" "generate_excalidraw_command" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]
@@ -275,7 +279,7 @@ resource "github_repository_file" "generate_excalidraw_command" {
 }
 
 resource "github_repository_file" "terraform_module_requirements" {
-  count = var.repo_type == "terraform_module" ? 1 : 0
+  count = var.repo_type == "terraform_module" && !var.archived ? 1 : 0
   depends_on = [
     github_repository_ruleset.main
   ]

@@ -43,14 +43,14 @@ resource "github_team_repository" "admin" {
 }
 
 resource "github_actions_secret" "secret" {
-  for_each        = var.is_template ? {} : var.secrets
+  for_each        = var.is_template || var.archived ? {} : var.secrets
   repository      = github_repository.repo.name
   secret_name     = each.key
   plaintext_value = each.value
 }
 
 resource "github_branch_default" "main" {
-  count      = var.is_template ? 0 : 1
+  count      = var.is_template || var.archived ? 0 : 1
   branch     = "main"
   repository = github_repository.repo.name
 }
