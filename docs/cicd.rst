@@ -3,16 +3,16 @@
 Continuous Integration and Deployment (CI/CD)
 =============================================
 
-The `GitHub Control <https://github.com/infrahouse8/github-control>`_ is a Terraform live repository [#fn1]_.
+The `GitHub Control <https://github.com/infrahouse/github-control>`_ is a Terraform live repository [#fn1]_.
 The Continuous Integration part of the workflow ensures that a proposed change is syntactically correct and it prepares the ``terraform plan`` output for the code review.
 The Continuous Deployment part of the workflow applies the suggested change i.e. runs ``terraform apply``.
 
-The document describes how CI/CD is implemented in `GitHub Control <https://github.com/infrahouse8/github-control>`_.
+The document describes how CI/CD is implemented in `GitHub Control <https://github.com/infrahouse/github-control>`_.
 
 GitHub Actions
 --------------
 
-GitHub Actions acts as execution engine for the `GitHub Control <https://github.com/infrahouse8/github-control>`_'s CI/CD.
+GitHub Actions acts as execution engine for the `GitHub Control <https://github.com/infrahouse/github-control>`_'s CI/CD.
 GitHub Actions workers run both ``terraform plan``, ``terraform apply``, linters, and other commands.
 Even though GitHub Actions is tightly integrated with GitHub itself,
 the worker still needs a GitHub token so the `GitHub provider <https://registry.terraform.io/providers/integrations/github/latest/docs>`_ can access the GitHub organization and make appropriate changes.
@@ -28,7 +28,7 @@ Code review rules
 ~~~~~~~~~~~~~~~~~
 
 Normally you want to require a code review for a pull request.
-There is only one user in `GitHub Control <https://github.com/infrahouse8/github-control>`_, so only pull requests are required.
+There is only one user in `GitHub Control <https://github.com/infrahouse/github-control>`_, so only pull requests are required.
 It means direct pushes to the main branch are not allowed.
 
 .. figure:: docs/_static/codereview.png
@@ -40,7 +40,7 @@ It means direct pushes to the main branch are not allowed.
 Status check rules
 ~~~~~~~~~~~~~~~~~~
 
-A `Terraform CI <https://github.com/infrahouse8/github-control/actions/workflows/terraform-CI.yml>`_
+A `Terraform CI <https://github.com/infrahouse/github-control/actions/workflows/terraform-CI.yml>`_
 workflow runs ``terraform plan``, so we want to enable it.
 
 **Require branches to be up to date before merging** is especially important when it comes to Terraform repositories.
@@ -55,7 +55,7 @@ If this option is not set, a user may unintentionally destroy resources created 
 Continuous Integration
 ----------------------
 
-A `Terraform CD <https://github.com/infrahouse8/github-control/actions/workflows/terraform-CD.yml>`_ workflow
+A `Terraform CD <https://github.com/infrahouse/github-control/actions/workflows/terraform-CD.yml>`_ workflow
 defined in ``.github/workflows/terraform-CI.yml`` triggers on a new pull request or any updates in it.
 Among other trivial steps like running a linter and checking code style there are two important steps.
 

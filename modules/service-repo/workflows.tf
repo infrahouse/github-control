@@ -1,3 +1,39 @@
+resource "github_repository_file" "terraform_ci" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository = github_repository.this.name
+  file       = ".github/workflows/terraform-CI.yml"
+  content = templatefile(
+    "${path.module}/templates/terraform-CI.yml.tftpl",
+    {
+      environments = sort(keys(var.environments))
+    }
+  )
+  commit_message      = "Add terraform-CI.yml workflow"
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "terraform_cd" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository = github_repository.this.name
+  file       = ".github/workflows/terraform-CD.yml"
+  content = templatefile(
+    "${path.module}/templates/terraform-CD.yml.tftpl",
+    {
+      deploy_orders         = local.deploy_orders
+      environments_by_order = local.environments_by_order
+      deploy_order_needs    = local.deploy_order_needs
+    }
+  )
+  commit_message      = "Add terraform-CD.yml workflow"
+  overwrite_on_create = true
+}
+
 resource "github_repository_file" "terraform_drift" {
   count = var.archived ? 0 : 1
   depends_on = [

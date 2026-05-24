@@ -1,3 +1,69 @@
+resource "github_repository_file" "gitignore" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = ".gitignore"
+  content             = file("${path.module}/templates/gitignore")
+  commit_message      = "Add .gitignore"
+  overwrite_on_create = false
+  lifecycle {
+    ignore_changes = [content]
+  }
+}
+
+resource "github_repository_file" "makefile_root" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = "Makefile"
+  content             = file("${path.module}/templates/Makefile.root")
+  commit_message      = "Add root Makefile"
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "makefile_fragment" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = "makefiles/Makefile"
+  content             = file("${path.module}/templates/makefile.mk")
+  commit_message      = "Add makefiles/Makefile"
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "makefile_env" {
+  for_each = var.archived ? {} : var.environments
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = "environments/${each.key}/Makefile"
+  content             = file("${path.module}/templates/Makefile.env")
+  commit_message      = "Add Makefile for ${each.key} environment"
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "requirements_txt" {
+  for_each = var.archived ? {} : var.environments
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = "environments/${each.key}/requirements.txt"
+  content             = file("${path.module}/templates/requirements.txt")
+  commit_message      = "Add requirements.txt for ${each.key} environment"
+  overwrite_on_create = false
+  lifecycle {
+    ignore_changes = [content]
+  }
+}
+
 resource "github_repository_file" "terraform_tf" {
   for_each            = var.environments
   repository          = github_repository.this.name

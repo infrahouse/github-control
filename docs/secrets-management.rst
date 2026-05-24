@@ -4,7 +4,7 @@ Managing Secrets for GitHub
 CI/CD workflows in GitHub repositories sometimes need access to third-party services.
 For example, a Python application repository needs a PyPI token to publish packages.
 
-This document explains how `GitHub Control repository <https://github.com/infrahouse8/github-control>`_ organizes secrets storage and distribution.
+This document explains how `GitHub Control repository <https://github.com/infrahouse/github-control>`_ organizes secrets storage and distribution.
 
 .. _secrets_workflow:
 .. figure:: docs/_static/secrets-workflow.png
@@ -15,14 +15,14 @@ This document explains how `GitHub Control repository <https://github.com/infrah
 Secrets Storage
 ---------------
 
-Even though there are many solutions for secrets storage, practically only two are available for `GitHub Control <https://github.com/infrahouse8/github-control>`_ out of box.
+Even though there are many solutions for secrets storage, practically only two are available for `GitHub Control <https://github.com/infrahouse/github-control>`_ out of box.
 One is `Encrypted Secrets <https://docs.github.com/en/actions/security-guides/encrypted-secrets>`_ in GitHub itself.
 Another is `AWS Secrets Manager <https://aws.amazon.com/secrets-manager/>`_.
 
 Both systems store secrets securely, with strong encryption and access control.
 Naturally, `AWS Secrets Manager <https://aws.amazon.com/secrets-manager/>`_ is better integrated with other AWS services.
 It allows finer control on what should have access to the secrets and has important features like secrets rotation, secrets versions, etc.
-We will need these features in future, so `AWS Secrets Manager <https://aws.amazon.com/secrets-manager/>`_ is going to be the choice for `GitHub Control <https://github.com/infrahouse8/github-control>`_.
+We will need these features in future, so `AWS Secrets Manager <https://aws.amazon.com/secrets-manager/>`_ is going to be the choice for `GitHub Control <https://github.com/infrahouse/github-control>`_.
 
 For better secrets organization it is better to have one system for storing secrets.
 Then it's only one source of truth for secrets, less room for data corruption when two systems by accident store the same secret.

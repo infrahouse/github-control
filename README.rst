@@ -4,7 +4,7 @@
 
 GitHub Control
 ==============
-The `GitHub Control <https://github.com/infrahouse8/github-control>`_ repository manages the `InfraHouse <https://github.com/infrahouse>`_ GitHub organization.
+The `GitHub Control <https://github.com/infrahouse/github-control>`_ repository manages the `InfraHouse <https://github.com/infrahouse>`_ GitHub organization.
 The repository uses `GitHub Terraform provider <https://registry.terraform.io/providers/integrations/github/latest/docs>`_ to define organization settings, repositories, and everything else supported by the provider.
 It is the configuration source of truth.
 If anything needs to be changed, including adding a new repository, the change should be made in this repository.
@@ -22,7 +22,7 @@ Out of Band Management
 
 A GutHub user `infrahouse8 <https://github.com/infrahouse8>`_ and the `InfraHouse <https://github.com/infrahouse>`_ organization are separated from each other.
 `infrahouse8 <https://github.com/infrahouse8>`_ is an owner of the `InfraHouse <https://github.com/infrahouse>`_ organizations.
-The `GitHub Control <https://github.com/infrahouse8/github-control>`_ repository is hosted under `infrahouse8 <https://github.com/infrahouse8>`_.
+The `GitHub Control <https://github.com/infrahouse/github-control>`_ repository is hosted under `infrahouse8 <https://github.com/infrahouse8>`_.
 This way ensures the out-of-band management of the organization.
 Only `infrahouse8 <https://github.com/infrahouse8>`_ has admin privileges in the `InfraHouse <https://github.com/infrahouse>`_ organization.
 All other members of the organization will have "member" privileges only.
@@ -55,7 +55,7 @@ The repo needs a set of inputs available for in the pull request stage as well a
 
 Secrets
 ~~~~~~~
-Defined in https://github.com/infrahouse8/github-control/settings/secrets/actions.
+Defined in https://github.com/infrahouse/github-control/settings/secrets/actions.
 
 ``GH_TOKEN``
     Personal token of a user `infrahouse8 <https://github.com/infrahouse8>`_.
