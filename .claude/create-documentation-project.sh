@@ -66,8 +66,8 @@ echo "✅ Custom fields created"
 echo ""
 echo "Adding automation tasks..."
 
-# Create issues in infrahouse8/github-control repo and add to project
-CONTROL_REPO="infrahouse8/github-control"
+# Create issues in infrahouse/github-control repo and add to project
+CONTROL_REPO="infrahouse/github-control"
 
 echo "  Creating automation task issues..."
 ISSUE1=$(gh issue create --repo "$CONTROL_REPO" \

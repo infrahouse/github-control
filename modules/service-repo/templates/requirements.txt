@@ -1,0 +1,2 @@
+infrahouse-toolkit ~= 2.59
+yamllint ~= 1.29

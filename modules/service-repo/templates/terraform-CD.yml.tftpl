@@ -1,0 +1,117 @@
+---
+name: "Terraform CD"
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - "closed"
+
+permissions:
+  id-token: "write"
+  contents: "read"
+
+concurrency:
+  group: "terraform"
+  cancel-in-progress: false
+
+jobs:
+%{ for order in deploy_orders ~}
+  deploy-order-${order}:
+    if: "github.event.pull_request.merged"
+%{ if deploy_order_needs[order] != null ~}
+    needs: ["deploy-order-${deploy_order_needs[order]}"]
+%{ endif ~}
+    strategy:
+      fail-fast: false
+      matrix:
+        env: ${jsonencode(environments_by_order[order])}
+    name: "Terraform Apply $${{ matrix.env }}"
+    runs-on: ubuntu-24.04
+    environment: "live-$${{ matrix.env }}"
+    timeout-minutes: 60
+    env:
+      GITHUB_TOKEN: "$${{ secrets.GITHUB_TOKEN }}"
+      REGION_JSON: "$${{ vars.AWS_DEFAULT_REGION }}"
+      ROLE_GITHUB_JSON: "$${{ vars.ROLE_GITHUB }}"
+      ROLE_SM_JSON: "$${{ vars.ROLE_STATE_MANAGER }}"
+      TF_VAR_environment: "$${{ matrix.env }}"
+
+    defaults:
+      run:
+        shell: "bash"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v6"
+
+      - name: "Extract Variables"
+        id: "extract_vars"
+        run: |
+          REGION=$(echo '$${{ env.REGION_JSON }}' | jq -r '.$${{ matrix.env }}')
+          echo "REGION=$REGION" >> "$GITHUB_OUTPUT"
+          ROLE_GITHUB=$(echo '$${{ env.ROLE_GITHUB_JSON }}' | jq -r '.$${{ matrix.env }}')
+          echo "ROLE_GITHUB=$ROLE_GITHUB" >> "$GITHUB_OUTPUT"
+          ROLE_SM=$(echo '$${{ env.ROLE_SM_JSON }}' | jq -r '.$${{ matrix.env }}')
+          echo "ROLE_STATE_MANAGER=$ROLE_SM" >> "$GITHUB_OUTPUT"
+
+      - name: "Configure AWS Credentials"
+        uses: "aws-actions/configure-aws-credentials@v6"
+        with:
+          role-to-assume: "$${{ steps.extract_vars.outputs.ROLE_GITHUB }}"
+          role-session-name: "github-actions-$${{ matrix.env }}"
+          aws-region: "$${{ steps.extract_vars.outputs.REGION }}"
+
+      - name: "Set Terraform version"
+        id: "terraform_version"
+        run: |
+          echo "IH_TF_VERSION=$(cat .terraform-version)" >> "$GITHUB_OUTPUT"
+
+      - name: "Setup Terraform"
+        uses: "hashicorp/setup-terraform@v4"
+        with:
+          terraform_version: "$${{ steps.terraform_version.outputs.IH_TF_VERSION }}"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v6"
+        with:
+          python-version: "3.14"
+
+      - name: "Setup Python Environment"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          make bootstrap-ci
+
+      - name: "Download Terraform Plan"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          ih-plan \
+            --aws-assume-role-arn \
+            $${{ steps.extract_vars.outputs.ROLE_STATE_MANAGER }} \
+            download \
+            plans/$${{ matrix.env }}/$${{ github.event.pull_request.number }}.plan \
+            tf.plan
+
+      - name: "Terraform Init"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          terraform init -input=false
+
+      - name: "Terraform Validate"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          terraform validate -no-color
+
+      - name: "Terraform Apply"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          make apply
+
+      - name: "Remove Plan"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          ih-plan \
+            --aws-assume-role-arn \
+            $${{ steps.extract_vars.outputs.ROLE_STATE_MANAGER }} \
+            remove \
+            plans/$${{ matrix.env }}/$${{ github.event.pull_request.number }}.plan
+%{ endfor ~}

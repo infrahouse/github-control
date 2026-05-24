@@ -1,7 +1,7 @@
 IAM Policy Configuration
 ========================
 
-A GitHub Actions worker that manages a GitHub organization via the `GitHub Control repository <https://github.com/infrahouse8/github-control>`_ needs an AWS credentials with certain permissions.
+A GitHub Actions worker that manages a GitHub organization via the `GitHub Control repository <https://github.com/infrahouse/github-control>`_ needs an AWS credentials with certain permissions.
 By the principle of least privilege the permissions depend on what the worker is supposed to do.
 
 
