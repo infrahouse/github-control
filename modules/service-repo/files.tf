@@ -64,6 +64,21 @@ resource "github_repository_file" "requirements_txt" {
   }
 }
 
+resource "github_repository_file" "requirements_txt_root" {
+  count = var.archived ? 0 : 1
+  depends_on = [
+    github_repository_ruleset.main
+  ]
+  repository          = github_repository.this.name
+  file                = "requirements.txt"
+  content             = file("${path.module}/templates/requirements.txt")
+  commit_message      = "Add requirements.txt"
+  overwrite_on_create = false
+  lifecycle {
+    ignore_changes = [content]
+  }
+}
+
 resource "github_repository_file" "terraform_tf" {
   for_each            = var.environments
   repository          = github_repository.this.name
