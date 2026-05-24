@@ -27,6 +27,7 @@ module "aws_service_infrahouse_app_gha_sandbox" {
   gh_org_name               = local.gh_org_name
   repo_name                 = "aws-service-infrahouse-app"
   state_bucket              = module.aws_service_infrahouse_app_state.bucket_name
+  state_key                 = "sandbox/terraform.tfstate"
   terraform_locks_table_arn = module.aws_service_infrahouse_app_state.lock_table_arn
   trusted_arns = [
     local.root_sso_admin_arn
