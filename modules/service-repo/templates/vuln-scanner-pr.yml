@@ -29,8 +29,9 @@ jobs:
         run: pip install -r requirements.txt
       - name: Install osv-scanner
         run: |
-          sudo apt-get update
-          sudo apt-get install -y osv-scanner
+          OSV_VERSION=$(curl -s https://api.github.com/repos/google/osv-scanner/releases/latest | python -c "import sys,json;print(json.load(sys.stdin)['tag_name'].lstrip('v'))")
+          curl -fsSL -o /usr/local/bin/osv-scanner "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64"
+          chmod +x /usr/local/bin/osv-scanner
       - name: Detect vulnerabilities
         run: |
           if [ -n "${{ github.event.pull_request.number }}" ]; then
