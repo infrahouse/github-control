@@ -6,12 +6,25 @@ locals {
   gh_org_name = "infrahouse"
 
   team_members = {
-    "akuzminsky" : [
-      github_team.dev.name,
-      github_team.admins.name
-    ],
-    "naumenko" : [
-      github_team.dev.name,
-    ],
+    "akuzminsky" = {
+      role = "member"
+      teams = [
+        github_team.dev.name,
+        github_team.admins.name,
+      ]
+    }
+    "infrahouse8" = {
+      role = "admin"
+      teams = [
+        github_team.dev.name,
+        github_team.admins.name,
+      ]
+    }
+    "naumenko" = {
+      role = "member"
+      teams = [
+        github_team.dev.name,
+      ]
+    }
   }
 }
