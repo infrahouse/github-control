@@ -34,6 +34,25 @@ module "aws_service_infrahouse_app_gha_sandbox" {
   ]
 }
 
+module "aws_service_infrahouse_app_gha_development" {
+  source  = "registry.infrahouse.com/infrahouse/gha-admin/aws"
+  version = "4.0.0"
+  providers = {
+    aws          = aws.aws-303467602807-uw1
+    aws.cicd     = aws.aws-303467602807-uw1
+    aws.tfstates = aws.aws-289256138624-uw1
+  }
+  environment               = "development"
+  gh_org_name               = local.gh_org_name
+  repo_name                 = "aws-service-infrahouse-app"
+  state_bucket              = module.aws_service_infrahouse_app_state.bucket_name
+  state_key                 = "development/terraform.tfstate"
+  terraform_locks_table_arn = module.aws_service_infrahouse_app_state.lock_table_arn
+  trusted_arns = [
+    local.root_sso_admin_arn
+  ]
+}
+
 # --- The service repo (pure GitHub, no AWS) ---
 module "aws_service_infrahouse_app" {
   source = "./modules/service-repo"
@@ -45,6 +64,13 @@ module "aws_service_infrahouse_app" {
   state_bucket     = module.aws_service_infrahouse_app_state.bucket_name
 
   environments = {
+    development = {
+      region                 = local.aws_default_region
+      admin_role_arn         = module.aws_service_infrahouse_app_gha_development.admin_role_arn
+      github_role_arn        = module.aws_service_infrahouse_app_gha_development.github_role_arn
+      state_manager_role_arn = module.aws_service_infrahouse_app_gha_development.state_manager_role_arn
+      deploy_order           = 0
+    }
     sandbox = {
       region                 = local.aws_default_region
       admin_role_arn         = module.aws_service_infrahouse_app_gha_sandbox.admin_role_arn
