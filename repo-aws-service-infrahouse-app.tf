@@ -17,12 +17,13 @@ module "aws_service_infrahouse_app_state" {
 # aws.cicd points to the same account — github role lands there.
 module "aws_service_infrahouse_app_gha_sandbox" {
   source  = "registry.infrahouse.com/infrahouse/gha-admin/aws"
-  version = "4.0.0"
+  version = "4.1.0"
   providers = {
     aws          = aws.aws-303467602807-uw1
     aws.cicd     = aws.aws-303467602807-uw1
     aws.tfstates = aws.aws-289256138624-uw1
   }
+  name_prefix               = "sandbox"
   environment               = "sandbox"
   gh_org_name               = local.gh_org_name
   repo_name                 = "aws-service-infrahouse-app"
@@ -36,12 +37,13 @@ module "aws_service_infrahouse_app_gha_sandbox" {
 
 module "aws_service_infrahouse_app_gha_production" {
   source  = "registry.infrahouse.com/infrahouse/gha-admin/aws"
-  version = "4.0.0"
+  version = "4.1.0"
   providers = {
     aws          = aws.aws-493370826424-uw1
     aws.cicd     = aws.aws-493370826424-uw1
     aws.tfstates = aws.aws-289256138624-uw1
   }
+  name_prefix               = "production"
   environment               = "production"
   gh_org_name               = local.gh_org_name
   repo_name                 = "aws-service-infrahouse-app"
