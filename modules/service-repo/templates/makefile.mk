@@ -43,6 +43,14 @@ plan: init ## Run terraform plan
 apply: ## Run terraform apply
 	terraform apply -auto-approve -input=false tf.plan
 
+.PHONY: smoke
+smoke: ## Run post-deploy smoke test if scripts/smoke.sh exists
+	@if [ -x scripts/smoke.sh ]; then \
+		scripts/smoke.sh "$(ENV)"; \
+	else \
+		echo "smoke[$(ENV)]: no scripts/smoke.sh, skipping"; \
+	fi
+
 .PHONY: clean
 clean: ## Remove generated files
 	rm -fr .terraform

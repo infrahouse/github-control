@@ -114,4 +114,9 @@ jobs:
             $${{ steps.extract_vars.outputs.ROLE_STATE_MANAGER }} \
             remove \
             plans/$${{ matrix.env }}/$${{ github.event.pull_request.number }}.plan
+
+      - name: "Smoke Test"
+        working-directory: "environments/$${{ matrix.env }}"
+        run: |
+          make smoke ENV=$${{ matrix.env }}
 %{ endfor ~}
