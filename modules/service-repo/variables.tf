@@ -43,10 +43,12 @@ variable "environments" {
 
     deploy_order controls the CD workflow sequence. Environments with the
     same order deploy in parallel; higher numbers wait for lower ones to
-    finish (chained via needs:). Environments with deploy_order > 0 are
-    gated by a GitHub environment protection rule — var.release_managers
-    must approve before the deployment proceeds. Order 0 (default) deploys
-    automatically after PR merge.
+    finish (chained via needs:). Order 0 (default) deploys automatically
+    after PR merge.
+
+    Set var.approval_team_slug to gate environments with deploy_order > 0
+    behind a required-reviewer protection rule. Required reviewers on
+    private repos need GitHub Enterprise Cloud.
   EOT
   type = map(object({
     region                 = string
@@ -183,6 +185,17 @@ variable "release_managers" {
     environments/{env}/releases.auto.tfvars.
   EOT
   type        = string
+}
+
+variable "approval_team_slug" {
+  description = <<-EOT
+    GitHub team slug whose members can approve deployments to environments
+    with deploy_order > 0. When null (default), no environments get
+    required reviewers. Required reviewers on private repos need GitHub
+    Enterprise Cloud.
+  EOT
+  type        = string
+  default     = null
 }
 
 variable "extra_codeowners" {
