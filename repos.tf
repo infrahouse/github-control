@@ -105,6 +105,12 @@ locals {
       "type"          = "terraform_aws"
       "template_repo" = null
     }
+    "loopproof" = {
+      "description"   = "Loopproof."
+      "type"          = "other"
+      "template_repo" = null
+      public_repo     = false
+    }
     "osv-scanner" = {
       "description"   = "Vulnerability scanner written in Go which uses the data provided by https://osv.dev"
       "type"          = "other"
